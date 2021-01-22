@@ -5,6 +5,7 @@
         v-model="checked"
         checked-color="red"
         class="checked-item"
+        @change="onCheckedChange"
       ></van-checkbox>
     </div>
     <div class="cart-img">
@@ -28,11 +29,24 @@ export default {
   components: {
     [Checkbox.name]: Checkbox,
   },
-  props: ["cart"],
+  props: ["cart", "isChecked", "index"],
   data() {
     return {
       checked: true,
     };
+  },
+  methods: {
+    onCheckedChange: function () {
+      // console.log(this.checked);
+      this.$emit("onCheckedChange", this.checked, this.index);
+    },
+    onItemViewChange: function (checked) {
+      // console.log(checked);
+      this.checked = checked;
+    },
+  },
+  created() {
+    this.checked = this.isChecked;
   },
 };
 </script>
