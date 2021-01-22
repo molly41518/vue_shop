@@ -67,12 +67,12 @@ var routes=[
     component:AssortView
   },
   {
-    path:'/car',
-    component:CarView
-  },
-  {
     path:'/search',
     component:SearchView
+  },
+  {
+    path:'/car',
+    component:CarView
   },
   {
     path:'/mine',
