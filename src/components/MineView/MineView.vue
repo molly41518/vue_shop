@@ -39,20 +39,35 @@
     <div class="item-wrapper">
       <div class="title-wrapper">
         <h4>我的訂單</h4>
-        <a href="#">
+        <a href="#" @click="onOrderView(0)">
           查看全部
           <van-icon name="arrow" />
         </a>
       </div>
       <van-row>
         <van-col span="6">
-          <MineItemView icon="shop" name="待付款"></MineItemView>
+          <MineItemView
+            icon="shop"
+            name="待付款"
+            type="1"
+            @onItemClick="onOrderView"
+          ></MineItemView>
         </van-col>
         <van-col span="6">
-          <MineItemView icon="shop-collect" name="待出貨"></MineItemView>
+          <MineItemView
+            icon="shop-collect"
+            name="待出貨"
+            type="2"
+            @onItemClick="onOrderView"
+          ></MineItemView>
         </van-col>
         <van-col span="6">
-          <MineItemView icon="underway" name="待收貨"></MineItemView>
+          <MineItemView
+            icon="underway"
+            name="待收貨"
+            type="3"
+            @onItemClick="onOrderView"
+          ></MineItemView>
         </van-col>
         <van-col span="6">
           <MineItemView icon="alipay" name="退貨"></MineItemView>
@@ -139,12 +154,21 @@
     <div class="logout">
       <a href="#">登出</a>
     </div>
+    <!-- 訂單詳細頁 -->
+    <transition name="slide-right">
+      <OrderView
+        v-if="orderViewShow"
+        @onBack="onOrderViewHidden"
+        :orderType="orderType"
+      ></OrderView>
+    </transition>
   </div>
 </template>
 
 <script>
 import { Col, Row, Icon } from "vant";
 import MineItemView from "../MineItemView/MineItemView.vue";
+import OrderView from "../OrderView/OrderView.vue";
 
 export default {
   name: "mineView",
@@ -153,12 +177,24 @@ export default {
     [Row.name]: Row,
     [Icon.name]: Icon,
     MineItemView,
+    OrderView,
   },
   data() {
     return {
       title: "我的",
       navViewShow: false,
+      orderViewShow: false,
+      orderType: -1,
     };
+  },
+  methods: {
+    onOrderView: function (num) {
+      this.orderType = parseInt(num);
+      this.orderViewShow = true;
+    },
+    onOrderViewHidden: function () {
+      this.orderViewShow = false;
+    },
   },
   created() {
     // 發送標題
